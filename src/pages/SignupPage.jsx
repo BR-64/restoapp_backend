@@ -38,7 +38,7 @@ function Signup() {
     <div className='min-h-screen flex items-center justify-center'>
       <div className='bg-white p-8 rounded-xl shadow-lg w-full max-w-md'>
         <h2 className='text-2xl font-semibold text-center mb-6 text-blue-400'>
-          Sign up
+          Sign upss
         </h2>
         <form onSubmit={handleLogin} className='space-y-4'>
           <div>
