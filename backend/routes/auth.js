@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const router = express.Router();
 const User = require('../models/User');
+const EmailVeri = require('../models/EmailVerification');
 const bcrypt = require('bcrypt');
 
 // Dummy user
@@ -39,17 +40,24 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // verification token
-    const token = uuidv4();
+    // const token = uuidv4();
 
     // create new user
     const newUser = new User({
       email,
       password: hashedPassword,
-      verificationToken: token,
+      // verificationToken: token,
+    });
+
+    const newEmailVeri = new EmailVeri({
+      // userid,
+      status: 'valid',
+      expiredDate: new Date().setDate(new Date().getDate() + 5),
     });
 
     await newUser.save();
-    await sendVerificationEmail(email, token);
+    await newEmailVeri.save();
+    await sendVerificationEmail(email, newEmailVeri._id);
 
     res.status(201).json({
       message: 'User created successfully, check you email to verify',
@@ -61,13 +69,14 @@ router.post('/signup', async (req, res) => {
 
 router.get('/verify-email/:token', async (req, res) => {
   const { token } = req.params;
-  const user = await User.findOne({ verificationToken: token });
+  // const user = await User.findOne({ verificationToken: token });
+  const user = await EmailVeri.findOne({ _id: token, status: 'valid' });
 
   if (!user) return res.status(400).send('Invalid token');
 
-  user.verified = true;
-  user.verificationToken = null;
-  await user.save();
+  // user.verified = true;
+  // user.verificationToken = null;
+  // await user.save();
 
   res.send('Email verified successfully!');
 });

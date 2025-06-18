@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
 
 async function sendVerificationEmail(email, token) {
   const url = `${process.env.BASE_URL}/api/auth/verify-email/${token}`;
+
   await transporter.sendMail({
     from: `"Resto App" <${process.env.EMAIL_USER}>`,
     to: email,
