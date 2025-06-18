@@ -1,5 +1,10 @@
 // routes/auth.js
 const express = require('express');
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
+const sendVerificationEmail = require('../controllers/sendVeriEmail');
+require('dotenv').config();
+
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
@@ -27,6 +32,7 @@ router.post('/signup', async (req, res) => {
   try {
     // check existing user
     const existUser = await User.findOne({ email });
+
     if (existUser)
       return res.status(400).json({ message: 'Email already used' });
 
