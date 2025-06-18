@@ -60,7 +60,7 @@ router.post('/signup', async (req, res) => {
     await sendVerificationEmail(email, newEmailVeri._id);
 
     res.status(201).json({
-      // message: 'User created successfully, check you email to verify',
+      message: 'User created successfully, check you email to verify',
     });
   } catch (err) {
     res.status(500).json({ message: 'server error', error: err.message });
