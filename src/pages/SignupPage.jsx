@@ -5,12 +5,22 @@ import { useNavigate } from 'react-router-dom';
 function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [cfmPassword, setcfmPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (password !== cfmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    setError('');
+    alert('Passwords match');
+
     console.log('Email is valid : ', email);
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
@@ -38,7 +48,7 @@ function Signup() {
     <div className='min-h-screen flex items-center justify-center'>
       <div className='bg-white p-8 rounded-xl shadow-lg w-full max-w-md'>
         <h2 className='text-2xl font-semibold text-center mb-6 text-blue-400'>
-          Sign upss aaa t3
+          Sign up
         </h2>
         <form onSubmit={handleLogin} className='space-y-4'>
           <div>
@@ -60,9 +70,25 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder='Password'
+              minLength={8}
               required
             />
           </div>
+
+          <div>
+            {/* <label className='block text-gray-700'>Password</label> */}
+            <input
+              type='password'
+              className='w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              value={cfmPassword}
+              onChange={(e) => setcfmPassword(e.target.value)}
+              placeholder='Confirm Password'
+              minLength={8}
+              required
+            />
+          </div>
+
+          {error && <p className='text-red-500'>{error}</p>}
 
           <button
             type='submit'

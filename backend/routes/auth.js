@@ -9,6 +9,8 @@ const User = require('../models/User');
 const EmailVeri = require('../models/EmailVerification');
 const bcrypt = require('bcrypt');
 
+const validatePassword = require('../middleware/validatePassword');
+
 // Dummy user
 const USERS = [{ email: 'user@ex.com', password: 'password' }];
 
@@ -25,7 +27,7 @@ router.post('/login', (req, res) => {
   }
 });
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', validatePassword, async (req, res) => {
   // console.log(req);
   const { email, password } = req.body;
 
@@ -74,9 +76,9 @@ router.get('/verify-email/:token', async (req, res) => {
 
   if (!user) return res.status(400).send('Invalid token');
 
-  // user.verified = true;
+  user.verified = true;
   // user.verificationToken = null;
-  // await user.save();
+  await user.save();
 
   res.send('Email verified successfully!');
 });
