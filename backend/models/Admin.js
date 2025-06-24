@@ -8,6 +8,10 @@ const adminSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  emailVeri: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('admins', adminSchema);

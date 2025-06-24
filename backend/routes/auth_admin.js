@@ -1,6 +1,6 @@
 // routes/auth.js
 const express = require('express');
-const sendVerificationEmail = require('../controllers/sendVeriEmail');
+const sendVerificationEmail_admin = require('../controllers/sendVeriEmail_admin');
 require('dotenv').config();
 
 const router = express.Router();
@@ -52,14 +52,14 @@ router.post('/signup', validatePassword, async (req, res) => {
     });
 
     const newEmailVeri = new EmailVeri({
-      // userid,
+      userid: newAdmin._id,
       status: 'valid',
       expiredDate: new Date().setDate(new Date().getDate() + 5),
     });
 
     await newAdmin.save();
     await newEmailVeri.save();
-    await sendVerificationEmail(email, newEmailVeri._id);
+    await sendVerificationEmail_admin(email, newEmailVeri._id);
 
     res.status(201).json({
       message: 'User created successfully, check you email to verify',
@@ -71,14 +71,26 @@ router.post('/signup', validatePassword, async (req, res) => {
 
 router.get('/verify-email/:token', async (req, res) => {
   const { token } = req.params;
-  const admin = await EmailVeri.findOne({ _id: token, status: 'valid' });
+  const adminEmail = await EmailVeri.findOne({ _id: token, status: 'valid' });
 
-  if (!admin) return res.status(400).send('Invalid token');
+  console.log(token);
 
-  admin.verified = true;
-  await admin.save();
+  if (!adminEmail) return res.status(400).send('Invalid token');
 
-  res.send('Email verified successfully!');
+  adminEmail.verified = true;
+  await adminEmail.save();
+
+  const admin = await Admin.findByIdAndUpdate(
+    adminEmail.userid,
+    {
+      $set: { emailVeri: true },
+    },
+    { new: true }
+  );
+
+  console.log(admin);
+
+  res.send('Admin Email verified successfully!');
 });
 
 module.exports = router;
