@@ -5,6 +5,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const productsRoutes = require('./routes/products');
 const authRoutes = require('./routes/auth');
+const authRoutesAdmin = require('./routes/auth_admin');
 
 dotenv.config();
 
@@ -23,6 +24,9 @@ app.use(express.json());
 // Routes
 app.use('/api/products', productsRoutes);
 app.use('/api/auth', authRoutes);
+
+//admin routes
+app.use('/admin/auth', authRoutesAdmin);
 
 // give access to folder uploads
 app.use('/uploads', express.static('uploads'));
