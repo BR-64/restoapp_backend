@@ -7,23 +7,52 @@ require('dotenv').config();
 const router = express.Router();
 const User = require('../models/User');
 const EmailVeri = require('../models/EmailVerification');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
+
+const jwt = require('jsonwebtoken');
 
 const validatePassword = require('../middleware/validatePassword');
 
 // Dummy user
 const USERS = [{ email: 'user@ex.com', password: 'password' }];
 
-router.post('/login', (req, res) => {
-  console.log(req);
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const user = USERS.find((u) => u.email === email && u.password === password);
+  console.log(req.body);
 
-  if (user) {
-    res.json({ message: 'Login successful' });
-  } else {
-    res.status(401).json({ message: 'Invalid credentials' });
+  try {
+    // 1. Find user
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // 2. Check password
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    console.log('Entered password:', password);
+    console.log('Stored hashed password:', user.password);
+
+    console.log(isMatch);
+
+    if (!isMatch)
+      return res.status(400).json({ message: 'Invalid credentials' });
+
+    // 3. Create JWT
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' } // session duration
+    );
+
+    // 4. Send token in response (or cookie)
+    res.status(200).json({
+      token,
+      user: { id: user._id, email: user.email },
+    });
+
+    console.log(res);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
