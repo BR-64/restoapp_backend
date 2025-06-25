@@ -19,9 +19,6 @@ const verifyToken = (req, res, next) => {
 
 module.exports = verifyToken;
 
-// middleware/auth.js
-const jwt = require('jsonwebtoken');
-
 function auth(req, res, next) {
   const token = req.header('Authorization')?.split(' ')[1];
 

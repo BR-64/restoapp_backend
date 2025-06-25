@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import LogoutButton from '../components/LogoutButton';
+import { useAuth } from '../context/AuthContext.jsx';
 
 const NavbarRes = () => {
+  const { isLoggedIn } = useAuth();
+
   const [isOpen, setIsOpen] = useState(false);
+  // const isLoggedIn = !!localStorage.getItem('token');
 
   return (
     <nav className='bg-white shadow-md'>
@@ -17,9 +22,11 @@ const NavbarRes = () => {
 
           {/* Desktop Menu */}
           <div className='hidden md:flex items-center space-x-4'>
-            <Link to='/login' className='hover:text-gray-300'>
-              Login
-            </Link>
+            {!isLoggedIn && (
+              <Link to='/login' className='hover:text-gray-300'>
+                Login
+              </Link>
+            )}
             <Link to='/' className='hover:text-gray-300'>
               Home
             </Link>
@@ -29,6 +36,7 @@ const NavbarRes = () => {
             <Link to='/products' className='hover:text-gray-300'>
               Product List
             </Link>
+            <LogoutButton />
           </div>
 
           {/* Mobile menu button */}
@@ -86,6 +94,7 @@ const NavbarRes = () => {
           <Link to='/products' className='hover:text-gray-300'>
             Product List
           </Link>
+          <LogoutButton />
         </div>
       )}
     </nav>

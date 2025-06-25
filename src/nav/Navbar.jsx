@@ -1,6 +1,7 @@
 // src/components/Navbar.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import LogoutButton from '../components/LogoutButton';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Navbar = () => {
         <Link to='/products' className='hover:text-gray-300'>
           Product List
         </Link>
+        <LogoutButton />
       </div>
     </nav>
   );

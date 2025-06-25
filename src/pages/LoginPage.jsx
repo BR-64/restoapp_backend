@@ -1,11 +1,14 @@
 // src/pages/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
 
 function Login() {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [token, setToken] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,6 +25,11 @@ function Login() {
       const res = await response.json();
 
       if (response.ok) {
+        // localStorage.setItem('token', res.token);
+        // setToken(res.token);
+
+        login(res.token);
+
         alert('Login successful!');
         navigate('/');
       } else {

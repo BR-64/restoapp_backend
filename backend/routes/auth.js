@@ -8,18 +8,15 @@ const router = express.Router();
 const User = require('../models/User');
 const EmailVeri = require('../models/EmailVerification');
 const bcrypt = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 
 const validatePassword = require('../middleware/validatePassword');
 
 // Dummy user
-const USERS = [{ email: 'user@ex.com', password: 'password' }];
+// const USERS = [{ email: 'user@ex.com', password: 'password' }];
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
-  console.log(req.body);
 
   try {
     // 1. Find user
@@ -28,11 +25,6 @@ router.post('/login', async (req, res) => {
 
     // 2. Check password
     const isMatch = await bcrypt.compare(password, user.password);
-
-    console.log('Entered password:', password);
-    console.log('Stored hashed password:', user.password);
-
-    console.log(isMatch);
 
     if (!isMatch)
       return res.status(400).json({ message: 'Invalid credentials' });
