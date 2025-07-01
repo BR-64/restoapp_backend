@@ -16,10 +16,10 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCart((prev) => {
-      const exists = prev.find((item) => item.id === product._id);
+      const exists = prev.find((item) => item._id === product._id);
       if (exists) {
         return prev.map((item) =>
-          item.id === product._id
+          item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );

@@ -14,6 +14,7 @@ import SignupPage from './pages/SignupPage.jsx';
 import SignupPageAdmin from './pages/SignupPage_admin.jsx';
 import ForgotPassPage from './pages/ForgotPassPage.jsx';
 import ResetPassPage from './pages/ResetPassPage.jsx';
+import CartPage from './pages/CartPage.jsx';
 
 //context
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -41,6 +42,7 @@ function App() {
                 path='/reset-password/:token'
                 element={<ResetPassPage />}
               />
+              <Route path='/cart' element={<CartPage />} />
             </Routes>
           </Router>
         </CartProvider>
