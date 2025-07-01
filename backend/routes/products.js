@@ -6,6 +6,7 @@ const router = express.Router();
 // import Product from '../models/Product.js';
 
 const { verifyToken } = require('../middleware/authMiddleware');
+const { productList, productID } = require('../controllers/productController');
 
 const multer = require('multer');
 const fs = require('fs');
@@ -47,38 +48,9 @@ router.post('/add', upload.array('file', 3), async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
-  try {
-    console.log('hello from backend !!');
-  } catch (err) {
-    console.error('Error from testing:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-router.get('/list', async (req, res) => {
-  try {
-    console.log('product data fetching');
-    const products = await Product.find({}).sort({ createdAt: -1 });
-    res.json(products);
-  } catch (error) {
-    console.error('Error fetching cases:', error);
-    res.status(500).json({ message: 'Failed to fetch products' });
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-    console.log('single product fetching');
-    console.log(req.params);
-
-    const product = await Product.findById(req.params.id);
-    res.json(product);
-  } catch (error) {
-    console.error('error');
-    res.status(500).json({ message: 'Failed to fetch case' });
-  }
-});
+// product for User
+router.get('/list', productList);
+router.get('/:id', productID);
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
