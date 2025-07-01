@@ -4,9 +4,11 @@ import Modal from 'react-modal';
 import ProductCard from '../components/ProductCard';
 import ItemModal from '../components/ItemModal';
 import Test_com from '../components/test_com';
+import { useCart } from '../context/CartContext';
 
 const ProductListPage = () => {
   const [productData, setProductData] = useState([]);
+  const { addToCart } = useCart();
 
   // const [activeModal, setActiveModal] = useState(null);
   // const openModal = (id) => setActiveModal(id);
@@ -46,6 +48,9 @@ const ProductListPage = () => {
             img={product.file[0]}
             details={product.description}
             price={product.price.toLocaleString()}
+            key={product._id}
+            onAddToCart={addToCart}
+            pid={product}
           />
         ))}
       </div>
