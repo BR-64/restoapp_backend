@@ -1,6 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const Product = require('../models/Product');
+
+// import express from 'express';
+const router = express.Router();
+// import Product from '../models/Product.js';
+
+const { verifyToken } = require('../middleware/authMiddleware');
 
 const multer = require('multer');
 const fs = require('fs');

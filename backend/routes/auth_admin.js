@@ -10,20 +10,54 @@ const bcrypt = require('bcrypt');
 
 const validatePassword = require('../middleware/validatePassword');
 
+const jwt = require('jsonwebtoken');
+
 // Dummy user
 
-// router.post('/login', (req, res) => {
-//   console.log(req);
-//   const { email, password } = req.body;
+router.post('/login', async (req, res) => {
+  try {
+    // console.log(req);
+    const { username, password } = req.body;
 
-//   const user = USERS.find((u) => u.email === email && u.password === password);
+    const admin = await Admin.findOne({
+      username,
+    });
 
-//   if (user) {
-//     res.json({ message: 'Login successful' });
-//   } else {
-//     res.status(401).json({ message: 'Invalid credentials' });
-//   }
-// });
+    if (!admin.isAdmin)
+      return res.status(404).json({ message: 'Access denied : Not admin' });
+
+    if (!admin) {
+      return res.status(401)({ message: 'Invalid username or password' });
+    }
+
+    console.log('user match');
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    //login success
+
+    //Create JWT
+    const token = jwt.sign(
+      { userId: admin._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' } // session duration
+    );
+
+    // 4. Send token in response (or cookie)
+    res.status(200).json({
+      token,
+      user: { id: admin._id, email: admin.email },
+    });
+
+    res.json({ message: 'Login successful' });
+  } catch (err) {
+    res.status(500).json({ message: 'Serv error', error: err.message });
+  }
+});
 
 router.post('/signup', validatePassword, async (req, res) => {
   // console.log(req);

@@ -13,6 +13,8 @@ import LoginPage from './pages/LoginPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
 import SignupPageAdmin from './pages/SignupPage_admin.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import ForgotPassPage from './pages/ForgotPassPage.jsx';
+import ResetPassPage from './pages/ResetPassPage.jsx';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path='/admin' element={<AdminPage />} />
             <Route path='/' element={<HomePage />} />
             <Route path='/edit/:id' element={<EditproductPage />} />
+            <Route path='/forgotpass' element={<ForgotPassPage />} />
+            <Route path='/reset-password/:token' element={<ResetPassPage />} />
           </Routes>
         </Router>
       </AuthProvider>

@@ -82,9 +82,11 @@ const NavbarRes = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className='flex flex-col md:hidden px-4 pb-4 space-y-2'>
-          <Link to='/login' className='hover:text-gray-300'>
-            Login
-          </Link>
+          {!isLoggedIn && (
+            <Link to='/login' className='hover:text-gray-300'>
+              Login
+            </Link>
+          )}
           <Link to='/' className='hover:text-gray-300'>
             Home
           </Link>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import ForgotPassButton from '../components/ForgotPasButton.jsx';
 
 function Login() {
   const { login } = useAuth();
@@ -25,8 +26,8 @@ function Login() {
       const res = await response.json();
 
       if (response.ok) {
-        // localStorage.setItem('token', res.token);
-        // setToken(res.token);
+        localStorage.setItem('token', res.token);
+        setToken(res.token);
 
         login(res.token);
 
@@ -71,9 +72,10 @@ function Login() {
 
           <button
             type='submit'
-            className='w-full bg-blue-600 text-black py-2 rounded-lg hover:bg-blue-700 transition'>
+            className='w-full py-2 font-semibold rounded-lg shadow-sm transition duration-200'>
             Login
           </button>
+          <ForgotPassButton />
         </form>
       </div>
     </div>
