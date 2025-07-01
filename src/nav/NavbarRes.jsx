@@ -3,8 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import LogoutButton from '../components/LogoutButton';
 import { useAuth } from '../context/AuthContext.jsx';
 
+//icon
+import { FiShoppingCart } from 'react-icons/fi';
+import { useCart } from '../context/CartContext';
+
 const NavbarRes = () => {
   const { isLoggedIn } = useAuth();
+  const { cart } = useCart();
 
   const [isOpen, setIsOpen] = useState(false);
   // const isLoggedIn = !!localStorage.getItem('token');
@@ -35,6 +40,15 @@ const NavbarRes = () => {
             </Link>
             <Link to='/products' className='hover:text-gray-300'>
               Product List
+            </Link>
+            <Link to='/cart'>
+              <FiShoppingCart size={24} />
+              {/* Optional: show cart count */}
+              {cart?.length > 0 && (
+                <span className='relative -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full'>
+                  {cart.length}
+                </span>
+              )}
             </Link>
             <LogoutButton />
           </div>
