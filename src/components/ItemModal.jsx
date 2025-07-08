@@ -23,7 +23,7 @@ const ItemModal = ({ item, onClose }) => {
             &nbsp;฿ {item.price.toLocaleString()}
           </p>
         </div>
-        <AddToCartBar className='self-end' />
+        <AddToCartBar product={item} className='self-end' />
         <button
           // className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
           className='absolute top-2 right-2 text-gray-500 hover:text-black text-xl font-bold focus:outline-none'

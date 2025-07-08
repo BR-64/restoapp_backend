@@ -20,11 +20,16 @@ import CartPage from './pages/CartPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { CartProvider } from './context/CartContext.jsx';
 
+//toast
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <div className='App'>
       <AuthProvider>
         <CartProvider>
+          <ToastContainer position='top-right' autoClose={3000} />
           <Router>
             <NavbarRes />
             <Routes>

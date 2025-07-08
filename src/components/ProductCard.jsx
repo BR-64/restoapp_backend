@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useCart } from '../context/CartContext';
+import AddToCartBar from '../components/AddToCartBar';
 
 const ProductCard = ({
   img,
@@ -35,11 +36,12 @@ const ProductCard = ({
       <p className='text-left text-sm ml-4  line-clamp-3'>{details}</p>
       <p className='self-end mt-auto mr-2 mb-1'> &nbsp;฿ {price}</p>
       {/* <p>{pid}</p> */}
-      <button
+      {/* <button
         onClick={() => onAddToCart(pid)}
         className='bg-blue-600 text-green px-4 py-2 rounded hover:bg-blue-700'>
         Add to Cart
-      </button>
+      </button> */}
+      <AddToCartBar product={pid} className='self-end' />
     </div>
   );
 };
