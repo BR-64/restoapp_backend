@@ -15,6 +15,7 @@ import SignupPageAdmin from './pages/SignupPage_admin.jsx';
 import ForgotPassPage from './pages/ForgotPassPage.jsx';
 import ResetPassPage from './pages/ResetPassPage.jsx';
 import CartPage from './pages/CartPage.jsx';
+import ReceiptPage from './pages/ReceiptPage.jsx';
 
 //context
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -48,6 +49,7 @@ function App() {
                 element={<ResetPassPage />}
               />
               <Route path='/cart' element={<CartPage />} />
+              <Route path='/receipt' element={<ReceiptPage />} />
             </Routes>
           </Router>
         </CartProvider>

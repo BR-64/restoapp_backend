@@ -13,8 +13,8 @@ const ProductCard = ({
   onAddToCart,
 }) => {
   // const { addToCart } = useCart();
-  console.log('Product:', pid);
-  console.log('onAddToCart is a function?', typeof onAddToCart === 'function');
+  // console.log('Product:', pid);
+  // console.log('onAddToCart is a function?', typeof onAddToCart === 'function');
 
   return (
     <div

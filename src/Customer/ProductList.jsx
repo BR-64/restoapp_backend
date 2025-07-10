@@ -61,52 +61,52 @@ const ProductListPage = () => {
     </div>
   );
 
-  return (
-    <>
-      <h1>This is menu / product list page</h1>
-      {productData.map((product) => (
-        <div className='flex border-r border-b mb-2'>
-          <img
-            className='w-[200px] h-[200px]'
-            src={'http://localhost:5000/' + product.file[0]}
-            alt=''
-          />
-          {/* <img
-            src={
-              'http://localhost:5000/uploads/gallery/file-1747977757359pete547323268.jpg'
-            }
-            alt=''
-          /> */}
-          <div className='ml-3 details text-left'>
-            <p
-              className='text-xl text-blue-600'
-              onClick={() => openModal(product._id)}>
-              {product.name}
-            </p>
-            <p>category : {product.category}</p>
-            <p>description : {product.description}</p>
-            <p>{product.price} thb</p>
-          </div>
-          <br />
-          <br />
+  // return (
+  //   <>
+  //     <h1>This is menu / product list page</h1>
+  //     {productData.map((product) => (
+  //       <div className='flex border-r border-b mb-2'>
+  //         <img
+  //           className='w-[200px] h-[200px]'
+  //           src={'http://localhost:5000/' + product.file[0]}
+  //           alt=''
+  //         />
+  //         {/* <img
+  //           src={
+  //             'http://localhost:5000/uploads/gallery/file-1747977757359pete547323268.jpg'
+  //           }
+  //           alt=''
+  //         /> */}
+  //         <div className='ml-3 details text-left'>
+  //           <p
+  //             className='text-xl text-blue-600'
+  //             onClick={() => openModal(product._id)}>
+  //             {product.name}
+  //           </p>
+  //           <p>category : {product.category}</p>
+  //           <p>description : {product.description}</p>
+  //           <p>{product.price} thb</p>
+  //         </div>
+  //         <br />
+  //         <br />
 
-          <Modal
-            isOpen={activeModal === product._id}
-            onRequestClose={closeModal}
-            contentLabel={`Modal for ${product.topic}`}
-            style={customStyles}>
-            <p>{product._id}</p>
-            <p>{product.name}</p>
-            <p>{product.category}</p>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-            <hr />
-            <button onClick={closeModal}>Close</button>
-          </Modal>
-        </div>
-      ))}
-    </>
-  );
+  //         <Modal
+  //           isOpen={activeModal === product._id}
+  //           onRequestClose={closeModal}
+  //           contentLabel={`Modal for ${product.topic}`}
+  //           style={customStyles}>
+  //           <p>{product._id}</p>
+  //           <p>{product.name}</p>
+  //           <p>{product.category}</p>
+  //           <p>{product.description}</p>
+  //           <p>{product.price}</p>
+  //           <hr />
+  //           <button onClick={closeModal}>Close</button>
+  //         </Modal>
+  //       </div>
+  //     ))}
+  //   </>
+  // );
 };
 
 const customStyles = {

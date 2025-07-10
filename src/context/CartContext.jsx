@@ -10,6 +10,7 @@ export const CartProvider = ({ children }) => {
     const stored = localStorage.getItem('cart');
     return stored ? JSON.parse(stored) : [];
   });
+  const [receipt, setReceipt] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -41,8 +42,36 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const removeFromCart = (id) => {
+    setCart((prev) => prev.filter((item) => item._id !== id));
+  };
+
+  const updateQuantity = (id, amount) => {
+    setCart((prev) =>
+      prev.map((item) => {
+        // console.log('Item:', item._id, 'Updating:', item._id === id);
+        return item._id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
+          : item;
+      })
+    );
+  };
+
+  const getTotal = () =>
+    cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        setCart,
+        getTotal,
+        receipt,
+        setReceipt,
+      }}>
       {children}
     </CartContext.Provider>
   );
