@@ -1,4 +1,6 @@
-export const handleCheckout = (
+import axios from 'axios';
+
+export const handleCheckout = async (
   cart,
   setCart,
   address,
@@ -12,25 +14,37 @@ export const handleCheckout = (
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // Simulate checkout (you can replace this with an API call)
+  // Simulate checkout
   alert(
     `✅ Checkout successful!\nTotal: $${total.toFixed(
       2
     )}\nShipping to:\n${address}`
   );
 
-  // Set receipt data
-  setReceipt({
-    address,
-    items: cart,
-    total,
-    timestamp: new Date().toLocaleString(),
-  });
+  // api call
+  try {
+    const res = await axios.post('http://localhost:5000/api/orders', {
+      items: cart,
+      address,
+      total,
+    });
 
-  // Clear cart
-  setCart([]);
-  localStorage.removeItem('cart');
+    // Set receipt data
+    setReceipt({
+      address,
+      items: cart,
+      total,
+      timestamp: new Date().toLocaleString(),
+    });
 
-  // Navigate to receipt page
-  navigate('/receipt');
+    // Clear cart
+    setCart([]);
+    localStorage.removeItem('cart');
+
+    // Navigate to receipt page
+    navigate('/receipt');
+  } catch (err) {
+    console.error(err);
+    alert('Failed to place order');
+  }
 };
