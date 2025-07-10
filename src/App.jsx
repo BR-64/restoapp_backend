@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import Navbar from './nav/Navbar';
-import AddProductForm from './Admin/AddProductPage';
-import ProductListPage from './Customer/ProductList';
-import AdminPage from './Admin/AdminPage';
-import HomePage from './HomePage';
+// import Navbar from './nav/Navbar';
+import AddProductForm from './Admin/AddProductPage.jsx';
+import ProductListPage from './Customer/ProductList.jsx';
+import AdminPage from './Admin/AdminPage.jsx';
+import HomePage from './HomePage.jsx';
 import NavbarRes from './nav/NavbarRes.jsx';
 import ProductsPage from './Admin/ProductsPage.jsx';
 import EditproductPage from './Admin/EditProductPage.jsx';
