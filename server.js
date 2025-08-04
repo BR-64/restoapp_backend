@@ -6,8 +6,10 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const productsRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 const authRoutes = require('./routes/auth');
 const authRoutesAdmin = require('./routes/auth_admin');
+const addressRoutes = require('./routes/addressRoutes');
 
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.use(express.json());
 app.use('/api/products', productsRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/address', addressRoutes);
 
 //admin routes
 app.use('/admin/auth', authRoutesAdmin);

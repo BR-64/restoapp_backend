@@ -9,9 +9,17 @@ const orderSchema = new mongoose.Schema({
       quantity: Number,
     },
   ],
-  address: {
-    type: String,
-    required: true,
+  // address: {
+  //   type: String,
+  //   required: true,
+  // },
+  shipAddress: {
+    _id: mongoose.Schema.Types.ObjectId,
+    house_no: String,
+    street: String,
+    district: String,
+    sub_district: String,
+    zip: String,
   },
   total: {
     type: Number,

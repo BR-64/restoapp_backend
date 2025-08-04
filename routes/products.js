@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 const router = express.Router();
 // import Product from '../models/Product.js';
 
-const { verifyToken } = require('../middleware/authMiddleware');
+const { authMiddleware } = require('../middleware/authMiddleware');
 const { productList, productID } = require('../controllers/productController');
 
 const multer = require('multer');

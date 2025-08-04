@@ -1,17 +1,34 @@
 const Order = require('../models/Order.js');
+const { calculateCartTotal } = require('../services/cartService.js');
+const { fetchDefualtAddress } = require('../services/addressService.js');
 
 const createOrder = async (req, res) => {
-  try {
-    const { items, address, total, userId } = req.body;
+  console.log('createOrder function called');
+  console.log('create order req', req.body);
 
-    if (!items?.length || !address || !total) {
+  userId = req.user.userId; // comes from authMiddleware
+
+  try {
+    const { cartItems } = req.body;
+
+    // console.log(cartItems);
+
+    if (!cartItems?.length) {
       return res.status(400).json({ message: 'Missing order data' });
     }
 
+    // cal total price
+    const totalPrice = await calculateCartTotal(cartItems);
+
+    // get default address
+    const shipAddress = await fetchDefualtAddress(userId);
+
+    console.log('shipAddress:', shipAddress);
+
     const newOrder = new Order({
-      items,
-      address,
-      total,
+      items: cartItems,
+      shipAddress: shipAddress,
+      total: totalPrice,
       userId: userId || null,
     });
 

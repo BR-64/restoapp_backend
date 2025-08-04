@@ -63,7 +63,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' } // session duration
+      { expiresIn: '24h' } // session duration
     );
 
     // 4. Send token in response (or cookie)
