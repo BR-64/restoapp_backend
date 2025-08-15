@@ -9,10 +9,6 @@ const orderSchema = new mongoose.Schema({
       quantity: Number,
     },
   ],
-  // address: {
-  //   type: String,
-  //   required: true,
-  // },
   shipAddress: {
     _id: mongoose.Schema.Types.ObjectId,
     house_no: String,
@@ -28,6 +24,10 @@ const orderSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: false,
+  },
+  username: {
+    type: String,
     required: false,
   },
   createdAt: {

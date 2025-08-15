@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 const connectDB = require('./config/db');
-const productsRoutes = require('./routes/products');
+const productsRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const authRoutes = require('./routes/auth');

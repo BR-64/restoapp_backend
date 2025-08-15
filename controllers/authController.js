@@ -8,7 +8,7 @@ const EmailVeri = require('../models/EmailVerification');
 const sendVerificationEmail = require('./sendVeriEmail');
 
 const signup = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, username, password } = req.body;
 
   try {
     // check existing user
@@ -23,6 +23,7 @@ const signup = async (req, res) => {
     // create new user
     const newUser = new User({
       email,
+      username,
       password: hashedPassword,
     });
 
@@ -61,7 +62,7 @@ const login = async (req, res) => {
 
     // 3. Create JWT
     const token = jwt.sign(
-      { userId: user._id },
+      { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '24h' } // session duration
     );

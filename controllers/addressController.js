@@ -2,7 +2,7 @@ const Address = require('../models/Address');
 const { fetchDefualtAddress } = require('../services/addressService');
 
 const addAddress = async (req, res) => {
-  const { house_no, street, district, sub_district, zip } = req.body;
+  const { house_no, street, district, sub_district, zip, tel } = req.body;
 
   // Optional: check if it's the first address for the user
   const existingAddresses = await Address.find({ userId: req.userId });
@@ -21,6 +21,7 @@ const addAddress = async (req, res) => {
       district,
       sub_district,
       zip,
+      tel,
       default: true, // default is false by default});
     });
     // console.log('req.user:', req.user);
@@ -39,7 +40,6 @@ const getUserAddresses = async (req, res) => {
   console.log('request for fetching user addresses received');
   try {
     const userId = req.user.userId; // comes from authMiddleware
-
     const addresses = await Address.find({ userId }).sort({ createdAt: -1 });
 
     res.status(200).json({ addresses });

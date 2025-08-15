@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { stringify } = require('uuid');
 
 const addressSchema = new mongoose.Schema(
   {
@@ -12,6 +13,7 @@ const addressSchema = new mongoose.Schema(
     district: String,
     sub_district: String,
     zip: String,
+    tel: String,
     default: { type: Boolean, default: false },
   },
   { timestamps: true }

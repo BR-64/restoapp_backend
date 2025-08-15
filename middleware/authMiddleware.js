@@ -37,7 +37,7 @@ const authMiddleware = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // userId will be available as req.user.userId
 
-    // console.log('token valid');
+    console.log('token valid');
     // console.log(`User ID: ${req.user.userId} authenticated successfully`);
 
     next();

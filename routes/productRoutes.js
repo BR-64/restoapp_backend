@@ -1,5 +1,6 @@
 const express = require('express');
 const Product = require('../models/Product');
+const { ObjectId } = require('mongodb');
 
 // import express from 'express';
 const router = express.Router();
@@ -24,7 +25,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-
 // POST /api/products - Add new product
 router.post('/add', upload.array('file', 3), async (req, res) => {
   try {
@@ -79,12 +79,20 @@ router.put('/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
   const itemId = req.params.id;
 
-  console.log(itemId);
+  // ✅ validate format
+  if (!ObjectId.isValid(itemId)) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  console.log('Received DELETE request for:', itemId);
+  console.log('this is deleteone', new ObjectId(itemId));
 
   try {
     const result = await db
       .collection('menus')
       .deleteOne({ _id: new ObjectId(itemId) });
+
+    console.log(itemId, ' deleted');
 
     if (result.deletedCount === 1) {
       res.status(200).json({ message: 'Item deleted successfully' });
