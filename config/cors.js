@@ -1,7 +1,11 @@
-import cors from 'cors';
-import { config } from './env.js';
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:5173', // vite default dev server
+];
 
-export const corsOptions = {
-  origin: config.clientURL,
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 };
+
+module.exports = corsOptions;

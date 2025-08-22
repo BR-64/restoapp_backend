@@ -10,6 +10,7 @@ const cartRoutes = require('./routes/cartRoutes');
 const authRoutes = require('./routes/auth');
 const authRoutesAdmin = require('./routes/auth_admin');
 const addressRoutes = require('./routes/addressRoutes');
+const corsOptions = require('./config/cors');
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ connectDB()
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes

@@ -102,7 +102,7 @@ const verifromEmail = async (req, res) => {
 const forgotPass = async (req, res) => {
   const { email } = req.body;
 
-  // console.log(email);
+  console.log(email);
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -137,7 +137,8 @@ const forgotPass = async (req, res) => {
 
     res.json({ message: 'Password reset email sent' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('ForgotPass error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
 
