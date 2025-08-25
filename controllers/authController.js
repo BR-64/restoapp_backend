@@ -171,6 +171,89 @@ const resetPass = async (req, res) => {
   }
 };
 
+const lineLogin = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) return res.status(400).json({ error: 'Missing idToken' });
+
+    // Verify with LINE
+    const verifyRes = await axios.post(
+      'https://api.line.me/oauth2/v2.1/verify',
+      new URLSearchParams({
+        id_token: idToken,
+        client_id: process.env.LINE_CHANNEL_ID, // ⚠️ not LIFF ID, but Channel ID
+      }),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+    );
+
+    const data = await verifyRes.json();
+
+    if (!verifyRes.ok)
+      return res.status(401).json({ error: 'Invalid token', data });
+
+    const { sub: lineUserId, name, picture } = data;
+
+    // Upsert user
+    let user = await User.findOne({ lineUserId });
+    if (!user) {
+      user = await User.create({
+        lineUserId,
+        displayName: name,
+        pictureUrl: picture,
+      });
+    }
+
+    // Create JWT for your app
+    const token = jwt.sign(
+      { uid: user._id, lineUserId: user.lineUserId },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({ user, token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+const liffLogin = async (req, res) => {
+  console.log('liff login called');
+  const { idToken } = req.body;
+
+  try {
+    const response = await axios.post(
+      'https://api.line.me/oauth2/v2.1/verify',
+      new URLSearchParams({
+        id_token: idToken,
+        client_id: process.env.LINE_CHANNEL_ID,
+      }).toString(),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+    );
+
+    const payload = response.data;
+
+    let user = await User.findOne({ lineId: payload.sub });
+    if (!user) {
+      user = new User({
+        lineId: payload.sub,
+        name: payload.name,
+        picture: payload.picture,
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+
+    res.json({ token, user });
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    res.status(401).json({ error: 'Invalid LINE token' });
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -178,4 +261,6 @@ module.exports = {
   verifromEmail,
   forgotPass,
   resetPass,
+  lineLogin,
+  liffLogin,
 };
